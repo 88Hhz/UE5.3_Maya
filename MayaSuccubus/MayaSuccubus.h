@@ -5,14 +5,13 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "SuccubusEnum.h"
-#include "Succubus_Projectile_Base.h"
-#include "Succubus_Meteor.h"
-#include "Succubus_Dash.h"
-#include "Succubus_Circle.h"
-
 #include "MayaSuccubus.generated.h"
 
 class UBossHpWidget;
+class ASuccubus_Projectile_Base;
+class ASuccubus_Meteor;
+class ASuccubus_Dash;
+class ASuccubus_Circle;
 
 UCLASS()
 class MAYA53_API AMayaSuccubus : public ACharacter

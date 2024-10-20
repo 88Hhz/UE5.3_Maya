@@ -9,8 +9,13 @@
 #include "Succubus_Beam.h"
 #include "Succubus_Wall.h"
 #include "Succubus_Barrier.h"
+#include "Succubus_Projectile_Base.h"
+#include "Succubus_Meteor.h"
+#include "Succubus_Dash.h"
+#include "Succubus_Circle.h"
 
 #include "MayaGameModeBase.h"
+#include "ActorInteractionManager.h"
 #include "BossHpWidget.h"
 
 #include "UObject/ConstructorHelpers.h"
@@ -29,7 +34,7 @@ AMayaSuccubus::AMayaSuccubus()
 		GetMesh()->SetSkeletalMesh(TempMesh.Object);
 		GetMesh()->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, -88.0f), FRotator(0.0f, -90.0f, 0.0f));
 	}
-	GetCharacterMovement()->MaxWalkSpeed = 130.0f;
+	GetCharacterMovement()->MaxWalkSpeed = 350.0f;
 
 	AIControllerClass = ASuccubusAIController::StaticClass();
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
@@ -96,6 +101,8 @@ void AMayaSuccubus::BeginPlay()
 		}
 	}
 
+	GetGameInstance()->GetSubsystem<UActorInteractionManager>()->SetBossActor(this);
+
 	if (BPSword)
 	{
 		SuccubusSword = GetWorld()->SpawnActor<AActor>(BPSword, FVector::ZeroVector, FRotator::ZeroRotator);
@@ -150,7 +157,7 @@ void AMayaSuccubus::SetSuccubusState(ESuccubusState State, ESuccubusAttack Attac
 		}
 		if (SuccubusCurrentState == ESuccubusState::Locomotion)
 		{
-			GetCharacterMovement()->MaxWalkSpeed = 130.0f;
+			GetCharacterMovement()->MaxWalkSpeed = 350.0f;
 		}
 	}
 }
@@ -184,12 +191,9 @@ void AMayaSuccubus::SpawnBeam()
 	FRotator SpawnRotation = GetActorRotation();
 
 	FVector AddPos = GetActorForwardVector() * 100.f;
-	//TempActor = GetWorld()->SpawnActor<AActor>(BPBeam, SpawnLocation + AddPos, SpawnRotation);
-
 	if (BPBeam)
 	{
 		TempProjectile = GetWorld()->SpawnActor<ASuccubus_Beam>(BPBeam, SpawnLocation + AddPos, SpawnRotation);
-		//TempBeam = GetWorld()->SpawnActor<ASuccubus_Beam>(BeamActor, SpawnLocation + AddPos, SpawnRotation);
 	}
 }
 
@@ -269,8 +273,6 @@ void AMayaSuccubus::SpawnCircle()
 
 void AMayaSuccubus::DestroySpawnedActor()
 {
-	//GetWorld()->DestroyActor(TempActor);
-
 	TempProjectile->DestroyProjectile();
 	TempProjectile = nullptr;
 }
