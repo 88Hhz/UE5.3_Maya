@@ -15,12 +15,6 @@ ASuccubus_Beam::ASuccubus_Beam()
 	BoxCollision->SetRelativeScale3D(FVector(14.1f, 1.7f, 1.7f));
 
 	BoxCollision->OnComponentBeginOverlap.AddDynamic(this, &ASuccubus_Beam::OnOverlapBegin);
-
-	/*
-	//NSComponent = CreateDefaultSubobject<UNiagaraComponent>(TEXT("NiagaraSystem"));
-	NSComponent->SetupAttachment(StaticMesh);
-	NSComponent->SetRelativeLocation(FVector(0.f, 0.f, 0.f));
-	*/
 }
 
 

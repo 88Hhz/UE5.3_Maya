@@ -31,7 +31,6 @@ ASuccubus_Meteor::ASuccubus_Meteor()
 void ASuccubus_Meteor::BeginPlay()
 {
 	Super::BeginPlay();
-	//NSComponent = UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NSParticle, FVector(GetActorLocation()), FRotator(GetActorRotation()));
 }
 
 
