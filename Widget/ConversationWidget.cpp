@@ -27,44 +27,26 @@ void UConversationWidget::NativeConstruct()
 
 void UConversationWidget::SetConversation(const FString& Speaker, const FString& Content)
 {
+	if (GetWorld())
+	{
+		GetWorld()->GetTimerManager().ClearTimer(ClearHandler);
 
-	if (!GetWorld()) return;
+		SpeakerText->SetText(FText::FromString(Speaker));
+		ContentText->SetText(FText::GetEmpty());
 
-	GetWorld()->GetTimerManager().ClearTimer(ClearContentHandle);
+		SetRenderOpacity(1.f);
 
-	SpeakerText->SetText(FText::FromString(Speaker));
-	ContentText->SetText(FText::GetEmpty());
+		FullContent = Content;
 
-	SetRenderOpacity(1.f);
-
-	FullContent = Content;
-
-	GetWorld()->GetTimerManager().SetTimer(TypeWriterTimerHandle, this, &UConversationWidget::SetContentSubstring, 0.05f, true);
+		GetWorld()->GetTimerManager().SetTimer(WriteHandler, this, &UConversationWidget::SetContentSubstring, 0.05f, true);
+	}
 }
 
 void UConversationWidget::SetContentSubstring()
 {
-	/*
-	int CurrLength = CurrentContent.Len() + 1;
-
-	// *** Mid는 Substring과 같다. ***
-	CurrentContent = FullContent.Mid(0, CurrLength);
-	ContentText->SetText(FText::FromString(CurrentContent));
-	*/
 	ContentText->SetText(FText::FromString(FullContent));
-	GetWorld()->GetTimerManager().ClearTimer(TypeWriterTimerHandle); // 타이머 클리어
-	GetWorld()->GetTimerManager().SetTimer(ClearContentHandle, this, &UConversationWidget::PlayFadeAnim, 2.f, false);
-
-	/*
-	// 끝까지 다 출력했다면
-	if (CurrLength == FullContent.Len())
-	{
-		GetWorld()->GetTimerManager().ClearTimer(TypeWriterTimerHandle); // 타이머 클리어
-
-		// 2초 뒤 페이드아웃 애니메이션 재생
-		GetWorld()->GetTimerManager().SetTimer(ClearContentHandle, this, &UConversation::PlayFadeAnim, 2.f, false);
-	}
-	*/
+	GetWorld()->GetTimerManager().ClearTimer(WriteHandler); 
+	GetWorld()->GetTimerManager().SetTimer(ClearHandler, this, &UConversationWidget::PlayFadeAnim, 2.f, false);
 }
 
 void UConversationWidget::PlayFadeAnim()

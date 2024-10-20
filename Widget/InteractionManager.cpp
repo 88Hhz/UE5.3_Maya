@@ -7,7 +7,7 @@
 
 void UInteractionManager::SetInteraction(bool bVisible)
 {
-	//InteractionWidget->SetInteraction(bVisible);
+	InteractionWidget->SetInteraction(bVisible);
 }
 
 void UInteractionManager::SetMapInteraction(int32 cnt)

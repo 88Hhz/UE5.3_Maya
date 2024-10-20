@@ -35,9 +35,8 @@ private:
 	UTextBlock* ContentText;
 
 	FString FullContent;
-	FString CurrentContent;
 
-	FTimerHandle TypeWriterTimerHandle;
-	FTimerHandle ClearContentHandle;
+	FTimerHandle WriteHandler;
+	FTimerHandle ClearHandler;
 
 };
